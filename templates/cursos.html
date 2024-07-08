@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Listar Cursos</title>
+{% endblock title %}
+
+{% block conteudo %}
+<div class="container">
+    <h1 class="text-center">Lista de Cursos</h1>
+    <a href="{{ url_for('criar_curso') }}" class="btn btn-success mb-3">Adicionar Curso</a>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Carga Horária</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for curso in cursos.items %}
+            <tr>
+                <td>{{ curso.id }}</td>
+                <td>{{ curso.nome }}</td>
+                <td>{{ curso.descricao }}</td>
+                <td>{{ curso.ch }}</td>
+                <td>
+                    <a href="{{ url_for('atualizar_curso', id=curso.id) }}" class="btn btn-primary">Atualizar</a>
+                    <a href="{{ url_for('deletar_curso', id=curso.id) }}" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja deletar este curso?')">Deletar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li class="page-item{% if not cursos.has_prev %} disabled{% endif %}">
+                <a class="page-link" href="{{ url_for('listar_cursos', page=cursos.prev_num) }}">Anterior</a>
+            </li>
+            {% for page_num in cursos.iter_pages() %}
+            <li class="page-item{% if page_num == cursos.page %} active{% endif %}">
+                <a class="page-link" href="{{ url_for('listar_cursos', page=page_num) }}">{{ page_num }}</a>
+            </li>
+            {% endfor %}
+            <li class="page-item{% if not cursos.has_next %} disabled{% endif %}">
+                <a class="page-link" href="{{ url_for('listar_cursos', page=cursos.next_num) }}">Próxima</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+{% endblock conteudo %}

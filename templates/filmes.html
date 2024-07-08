@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}<title>{{propiedade.capitalize()}}</title>{% endblock title %}
+
+{% block conteudo %}
+<div class="container">
+    <!-- Exibindo o título baseado na seleção -->
+    {% if propiedade == "mais_populares" %}
+    <h1 class="text-center">Mais Populares</h1>
+    {% elif propiedade == "kids" %}
+    <h1 class="text-center">Filmes para Crianças</h1>
+    {% elif propiedade == "2020" %}
+    <h1 class="text-center">Filmes de 2020</h1>
+    {% elif propiedade == "drama" %}
+    <h1 class="text-center">Filmes de Drama</h1>
+    {% elif propiedade == "tom_cruise" %}
+    <h1 class="text-center">Filmes de Tom Cruise</h1>
+    {% endif %}
+    
+    <hr>
+    <div class="row">
+        {% for filme in filmes %}
+        <div class="col-md-3">
+            <div class="card" style="width: 18rem;">
+                <img src="http://image.tmdb.org/t/p/w500{{filme.poster_path}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{filme.title}}</h5>
+                    <p class="card-text">{{filme.overview}}</p>
+                    <hr>
+                    <h4>Nota média <span class="badge bg-secondary">{{filme.vote_average}}</span></h4>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock conteudo %}
